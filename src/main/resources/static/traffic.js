@@ -39,8 +39,8 @@ function parseStops(stops) {
 		var tableRow = '<tr class="stopRow">';
 			tableRow += '<th>' + dateOfStop + '</th>';
 			tableRow += '<th>' + timeOfStop + '</th>';
-			tableRow += '<th>' + latitude + '</th>';
-			tableRow += '<th>' + longitude + '</th>';
+			tableRow += '<th style="text-align:left">' + latitude + '</th>';
+			tableRow += '<th style="text-align:left">' + longitude + '</th>';
 			tableRow += '<th>' + location + '</th>';
 			tableRow += '<th>' + vehicleType + '</th>';
 			tableRow += '<th>' + vehicleMake + '</th>';
@@ -49,7 +49,7 @@ function parseStops(stops) {
 			tableRow += '<th>' + vehicleColor + '</th>';
 			tableRow += '</tr>';
 			
-		$("#trafficStopTable").append(tableRow);
+		$("#stopBody").append(tableRow);
 	}
 	
 	$("#trafficStops").removeClass("hidden");

@@ -1,0 +1,15 @@
+.hidden {
+	display: none;
+}
+
+#trafficStopTable {
+	width:100%;
+}
+
+tr.stopRow {
+	font-family:monospace;
+	font-size: 75%;
+}
+tr.stopRow:NTH-OF-TYPE(2n) {
+	background: lightgrey;
+}

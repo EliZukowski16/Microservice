@@ -2,14 +2,7 @@
 <html>
 <head>
 <title>Montgomery County Traffic Stops</title>
-<style type="text/css">
-
-.hidden {
-display:none;
-}
-
-
-</style>
+<link rel="stylesheet" type="text/css" href="/traffic.css" />
 
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"
     integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
@@ -17,32 +10,34 @@ display:none;
 <script src="/traffic.js"></script>
 </head>
 <body>
-    <header>
-    
-    </header>
+    <header> </header>
     <section id="dateSelection">
         <div>
             <p>View Traffic Stops By Date:</p>
-            <input id="dateSelect" type="date"/>
-            <input id="submitDate" type="button" value="Submit"/>
+            <input id="dateSelect" type="date" /> <input id="submitDate"
+                type="button" value="Submit" />
         </div>
     </section>
     <section id="trafficStops" class="hidden">
         <table id="trafficStopTable">
-            <tr id="stopHeader">
-                <th>Date</th>
-                <th>Time</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>Location</th>
-                <th>Vehicle Type</th>
-                <th>Make</th>
-                <th>Model</th>
-                <th>Year</th>
-                <th>Color</th>
-            </tr>
+            <thead id="stopHeader">
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Location</th>
+                    <th>Vehicle Type</th>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Year</th>
+                    <th>Color</th>
+                </tr>
+            </thead>
+            <tbody id="stopBody">
+            </tbody>
         </table>
-        
+
     </section>
 </body>
 </html>

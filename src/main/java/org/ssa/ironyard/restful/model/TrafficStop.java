@@ -6,7 +6,7 @@ public class TrafficStop
 {
     private Calendar dateAndTimeOfStop = Calendar.getInstance();
 //    private String date_of_stop;
-    private String time_of_stop;
+//    private String time_of_stop;
     private Double latitude;
     private Double longitude;
     private String location;
@@ -17,18 +17,8 @@ public class TrafficStop
     private String color;
     
     public String getDate_of_stop()
-    {
-        Integer year;
-        Integer month;
-        Integer day;
-        
-        year = dateAndTimeOfStop.get(Calendar.YEAR);
-        month = dateAndTimeOfStop.get(Calendar.MONTH) + 1;
-        day = dateAndTimeOfStop.get(Calendar.DATE);
-        
-        
-        return year + "-" + month + "-" + day;
-        
+    {      
+        return String.format("%1$tY-%1$tm-%1$td", dateAndTimeOfStop);
     }
     public void setDate_of_stop(String date_of_stop)
     {
@@ -40,16 +30,7 @@ public class TrafficStop
     }
     public String getTime_of_stop()
     {
-        Integer hour;
-        Integer minute;
-        Integer second;
-        
-        hour = dateAndTimeOfStop.get(Calendar.HOUR_OF_DAY);
-        minute = dateAndTimeOfStop.get(Calendar.MINUTE);
-        second = dateAndTimeOfStop.get(Calendar.SECOND);
-        
-//        return hour + ":" + minute + ":" + second;
-        return time_of_stop;
+        return String.format("%1$tH:%1$tM:%1$tS", dateAndTimeOfStop);
     }
     public void setTime_of_stop(String time_of_stop)
     {
@@ -60,8 +41,6 @@ public class TrafficStop
         dateAndTimeOfStop.set(Calendar.HOUR_OF_DAY, Integer.parseInt(niceTime[0]));
         dateAndTimeOfStop.set(Calendar.MINUTE, Integer.parseInt(niceTime[1]));
         dateAndTimeOfStop.set(Calendar.SECOND, Integer.parseInt(niceTime[2]));
-        
-        this.time_of_stop = time_of_stop;
     }
     public Double getLatitude()
     {
