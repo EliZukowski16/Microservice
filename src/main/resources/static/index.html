@@ -3,6 +3,12 @@
 <head>
 <title>Montgomery County Traffic Stops</title>
 <style type="text/css">
+
+.hidden {
+display:none;
+}
+
+
 </style>
 
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"
@@ -21,7 +27,21 @@
             <input id="submitDate" type="button" value="Submit"/>
         </div>
     </section>
-    <section id="trafficStops">
+    <section id="trafficStops" class="hidden">
+        <table id="trafficStopTable">
+            <tr id="stopHeader">
+                <th>Date</th>
+                <th>Time</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Location</th>
+                <th>Vehicle Type</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Color</th>
+            </tr>
+        </table>
         
     </section>
 </body>
