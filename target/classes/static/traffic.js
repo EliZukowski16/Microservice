@@ -37,16 +37,16 @@ function parseStops(stops) {
 		let vehicleColor = stops[i].color;
 		
 		var tableRow = '<tr class="stopRow">';
-			tableRow += '<th>' + dateOfStop + '</th>';
-			tableRow += '<th>' + timeOfStop + '</th>';
-			tableRow += '<th style="text-align:left">' + latitude + '</th>';
-			tableRow += '<th style="text-align:left">' + longitude + '</th>';
-			tableRow += '<th>' + location + '</th>';
-			tableRow += '<th>' + vehicleType + '</th>';
-			tableRow += '<th>' + vehicleMake + '</th>';
-			tableRow += '<th>' + vehicleModel + '</th>';
-			tableRow += '<th>' + vehicleYear + '</th>';
-			tableRow += '<th>' + vehicleColor + '</th>';
+			tableRow += '<td>' + dateOfStop + '</td>';
+			tableRow += '<td>' + timeOfStop + '</td>';
+			tableRow += '<td>' + latitude + '</td>';
+			tableRow += '<td>' + longitude + '</td>';
+			tableRow += '<td>' + location + '</td>';
+			tableRow += '<td>' + vehicleType + '</td>';
+			tableRow += '<td>' + vehicleMake + '</td>';
+			tableRow += '<td>' + vehicleModel + '</td>';
+			tableRow += '<td>' + vehicleYear + '</td>';
+			tableRow += '<td>' + vehicleColor + '</td>';
 			tableRow += '</tr>';
 			
 		$("#stopBody").append(tableRow);

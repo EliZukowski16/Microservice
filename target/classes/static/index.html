@@ -15,10 +15,9 @@
     <section id="dateSelection">
         <div>
             <form data-ng-submit="TC.dateSubmit(TC.trafficStopDateRaw)">
-                <label for="dateSelect">View Traffic Stops By Date:</label> <input
-                    data-ng-model="TC.trafficStopDateRaw" id="dateSelect"
-                    type="date" /> <input id="submitDate" type="submit"
-                    value="Submit" data-ng-disabled="!TC.trafficStopDateRaw" />
+                <label for="dateSelect">View Traffic Stops On:</label> 
+                <input data-ng-model="TC.trafficStopDateRaw" id="dateSelect"type="date"> 
+                <input id="submitDate" type="submit" value="Submit" data-ng-disabled="!TC.trafficStopDateRaw">
             </form>
         </div>
     </section>
@@ -26,23 +25,48 @@
         <table id="trafficStopTable">
             <thead id="stopHeader">
                 <tr>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Latitude</th>
-                    <th>Longitude</th>
-                    <th>Location</th>
-                    <th>Vehicle Type</th>
-                    <th>Make</th>
-                    <th>Model</th>
-                    <th>Year</th>
-                    <th>Color</th>
+                    <th>
+                        <button data-ng-click="TC.sortBy('dateAndTimeOfStop')">Time</button>
+                        <span class="sortorder" data-ng-show="TC.sortMethod === 'dateAndTimeOfStop'" data-ng-class="{reverse: TC.reverse}"></span>
+                    </th>
+                    <th>
+                        <button data-ng-click="TC.sortBy('latitude')">Latitude</button>
+                        <span class="sortorder" data-ng-show="TC.sortMethod === 'latitude'" data-ng-class="{reverse: TC.reverse}"></span>
+                    </th>
+                    <th>
+                        <button data-ng-click="TC.sortBy('longitude')">Longitude</button>
+                        <span class="sortorder" data-ng-show="TC.sortMethod === 'longitude'" data-ng-class="{reverse: TC.reverse}"></span>
+                    </th>
+                    <th>
+                        <button data-ng-click="TC.sortBy('location')">Location</button>
+                        <span class="sortorder" data-ng-show="TC.sortMethod === 'location'" data-ng-class="{reverse: TC.reverse}"></span>
+                    </th>
+                    <th>
+                        <button data-ng-click="TC.sortBy('vehicleType')">Vehicle Type</button>
+                        <span class="sortorder" data-ng-show="TC.sortMethod === 'vehicleType'" data-ng-class="{reverse: TC.reverse}"></span>
+                    </th>
+                    <th>
+                        <button data-ng-click="TC.sortBy('vehicleMake')">Make</button>
+                        <span class="sortorder" data-ng-show="TC.sortMethod === 'vehicleMake'" data-ng-class="{reverse: TC.reverse}"></span>
+                    </th>
+                    <th>
+                        <button data-ng-click="TC.sortBy('vehicleModel')">Model</button>
+                        <span class="sortorder" data-ng-show="TC.sortMethod === 'vehicleModel'" data-ng-class="{reverse: TC.reverse}"></span>
+                    </th>
+                    <th>
+                        <button data-ng-click="TC.sortBy('vehicleYear')">Year</button>
+                        <span class="sortorder" data-ng-show="TC.sortMethod === 'vehicleYear'" data-ng-class="{reverse: TC.reverse}"></span>
+                    </th>
+                    <th>
+                        <button data-ng-click="TC.sortBy('vehicleColor')">Color</button>
+                        <span class="sortorder" data-ng-show="TC.sortMethod === 'vehicleColor'" data-ng-class="{reverse: TC.reverse}"></span>
+                    </th>
                 </tr>
             </thead>
             <tbody id="stopBody">
-                <tr class="stopRow"
-                    data-ng-repeat="trafficStop in TC.trafficStopValues">
-                    <td>{{trafficStop.dateOfStop}}</td>
-                    <td>{{trafficStop.timeOfStop}}</td>
+                <tr class="stopRow" data-id="{{trafficStop.id}}"
+                    data-ng-repeat="trafficStop in TC.trafficStopValues | orderBy:TC.sortMethod:TC.reverse">
+                    <td>{{trafficStop.dateAndTimeOfStop | date : 'HH:mm:ss'}}</td>
                     <td>{{trafficStop.latitude}}</td>
                     <td>{{trafficStop.longitude}}</td>
                     <td>{{trafficStop.location}}</td>
@@ -67,22 +91,36 @@
             }
     
             this.trafficStopValues = []
+            
+            this.sortMethod = 'dateAndTimeOfStop';
+            this.reverse = true;
+            
     
+            this.sortBy = function(sortMethod) {
+            	this.reverse = (this.sortMethod === sortMethod) ? !this.reverse : false;
+            	this.sortMethod = sortMethod;
+            }
+            
             var self = this;
             
             this.dateSubmit = function(date) {
-                console.log("Submit Ran")
                 this.dateNice.year = date.getFullYear();
                 this.dateNice.month = date.getMonth() + 1;
                 this.dateNice.day = date.getDate();
     
                 $http.get("./stops/" + this.dateNice.year + "/" + this.dateNice.month + "/" + this.dateNice.day).then(function(response) {
                     self.trafficStopValues = []
-                    console.log(response.data)
                     angular.forEach(response.data, function(value, key) {
                         self.trafficStopValues.push({
-                            dateOfStop : value.date_of_stop,
-                            timeOfStop : value.time_of_stop,
+                        	id : key,
+                        	
+                            dateAndTimeOfStop : new Date(
+                            		value.date_of_stop.slice(0,4), 
+                            		value.date_of_stop.slice(5,7) - 1, 
+                            		value.date_of_stop.slice(8), 
+                            		value.time_of_stop.slice(0,2), 
+                            		value.time_of_stop.slice(3,5), 
+                            		value.time_of_stop.slice(6)),
                             latitude : value.latitude,
                             longitude : value.longitude,
                             location : value.location,

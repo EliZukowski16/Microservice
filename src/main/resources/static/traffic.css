@@ -9,3 +9,11 @@ tr.stopRow {
 tr.stopRow:NTH-OF-TYPE(2n) {
 	background: lightgrey;
 }
+
+.sortorder:after {
+	content: '\25b2';
+}
+
+.sortorder.reverse:after {
+	content: '\25bc';
+}
