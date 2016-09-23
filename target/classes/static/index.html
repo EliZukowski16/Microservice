@@ -1,24 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html data-ng-app="traffic">
 <head>
 <title>Montgomery County Traffic Stops</title>
 <link rel="stylesheet" type="text/css" href="/traffic.css" />
-
+<!--  
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"
     integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
     crossorigin="anonymous"></script>
 <script src="/traffic.js"></script>
+-->
 </head>
-<body>
+<body data-ng-controller="TrafficController as TC">
     <header> </header>
     <section id="dateSelection">
         <div>
-            <p>View Traffic Stops By Date:</p>
-            <input id="dateSelect" type="date" /> <input id="submitDate"
-                type="button" value="Submit" />
+            <form data-ng-submit="TC.dateSubmit(TC.trafficStopDateRaw)">
+                <label for="dateSelect">View Traffic Stops By Date:</label> <input
+                    data-ng-model="TC.trafficStopDateRaw" id="dateSelect"
+                    type="date" /> <input id="submitDate" type="submit"
+                    value="Submit" data-ng-disabled="!TC.trafficStopDateRaw" />
+            </form>
         </div>
     </section>
-    <section id="trafficStops" class="hidden">
+    <section id="trafficStops" data-ng-hide="TC.trafficStopValues.length === 0">
         <table id="trafficStopTable">
             <thead id="stopHeader">
                 <tr>
@@ -35,9 +39,63 @@
                 </tr>
             </thead>
             <tbody id="stopBody">
+                <tr class="stopRow"
+                    data-ng-repeat="trafficStop in TC.trafficStopValues">
+                    <td>{{trafficStop.dateOfStop}}</td>
+                    <td>{{trafficStop.timeOfStop}}</td>
+                    <td>{{trafficStop.latitude}}</td>
+                    <td>{{trafficStop.longitude}}</td>
+                    <td>{{trafficStop.location}}</td>
+                    <td>{{trafficStop.vehicleType}}</td>
+                    <td>{{trafficStop.vehicleMake}}</td>
+                    <td>{{trafficStop.vehicleModel}}</td>
+                    <td>{{trafficStop.vehicleYear}}</td>
+                    <td>{{trafficStop.vehicleColor}}</td>
+                </tr>
             </tbody>
         </table>
-
     </section>
+
+    <script type="text/javascript" src="/angular.min.js"></script>
+    <script type="text/javascript">
+        angular.module('traffic', []).controller("TrafficController", function($http) {
+    
+            this.dateNice = {
+                year : "",
+                month : "",
+                day : "",
+            }
+    
+            this.trafficStopValues = []
+    
+            var self = this;
+            
+            this.dateSubmit = function(date) {
+                console.log("Submit Ran")
+                this.dateNice.year = date.getFullYear();
+                this.dateNice.month = date.getMonth() + 1;
+                this.dateNice.day = date.getDate();
+    
+                $http.get("./stops/" + this.dateNice.year + "/" + this.dateNice.month + "/" + this.dateNice.day).then(function(response) {
+                    self.trafficStopValues = []
+                    console.log(response.data)
+                    angular.forEach(response.data, function(value, key) {
+                        self.trafficStopValues.push({
+                            dateOfStop : value.date_of_stop,
+                            timeOfStop : value.time_of_stop,
+                            latitude : value.latitude,
+                            longitude : value.longitude,
+                            location : value.location,
+                            vehicleType : value.vehicle_type,
+                            vehicleMake : value.make,
+                            vehicleModel : value.model,
+                            vehicleYear : value.year,
+                            vehicleColor : value.color,
+                        })
+                    })
+                })
+            }
+        })
+    </script>
 </body>
 </html>
