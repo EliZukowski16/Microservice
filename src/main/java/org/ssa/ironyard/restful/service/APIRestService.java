@@ -28,6 +28,7 @@ public class APIRestService
         final String uri = "https://data.montgomerycountymd.gov/resource/ms8i-8ux3.json?date_of_stop=" + requestDate;
         RestTemplate stopsRestTemplate = new RestTemplate();
         
+        
         ResponseEntity<List<TrafficStop>> stops = stopsRestTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<List<TrafficStop>>() {
         
         });

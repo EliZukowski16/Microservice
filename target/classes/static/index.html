@@ -83,35 +83,34 @@
     <script type="text/javascript" src="/angular.min.js"></script>
     <script type="text/javascript">
         angular.module('traffic', []).controller("TrafficController", function($http) {
-    
-            this.dateNice = {
+    		var controller = this;
+        	
+            controller.dateNice = {
                 year : "",
                 month : "",
                 day : "",
             }
     
-            this.trafficStopValues = []
+            controller.trafficStopValues = []
             
-            this.sortMethod = 'dateAndTimeOfStop';
-            this.reverse = true;
+            controller.sortMethod = 'dateAndTimeOfStop';
+            controller.reverse = true;
             
     
-            this.sortBy = function(sortMethod) {
-            	this.reverse = (this.sortMethod === sortMethod) ? !this.reverse : false;
-            	this.sortMethod = sortMethod;
+            controller.sortBy = function(sortMethod) {
+            	controller.reverse = (controller.sortMethod === sortMethod) ? !controller.reverse : false;
+            	controller.sortMethod = sortMethod;
             }
             
-            var self = this;
-            
-            this.dateSubmit = function(date) {
-                this.dateNice.year = date.getFullYear();
-                this.dateNice.month = date.getMonth() + 1;
-                this.dateNice.day = date.getDate();
+            controller.dateSubmit = function(date) {
+            	controller.dateNice.year = date.getFullYear();
+            	controller.dateNice.month = date.getMonth() + 1;
+            	controller.dateNice.day = date.getDate();
     
-                $http.get("./stops/" + this.dateNice.year + "/" + this.dateNice.month + "/" + this.dateNice.day).then(function(response) {
-                    self.trafficStopValues = []
+                $http.get("./stops/" + controller.dateNice.year + "/" + controller.dateNice.month + "/" + controller.dateNice.day).then(function(response) {
+                	controller.trafficStopValues = []
                     angular.forEach(response.data, function(value, key) {
-                        self.trafficStopValues.push({
+                    	controller.trafficStopValues.push({
                         	id : key,
                         	
                             dateAndTimeOfStop : new Date(
