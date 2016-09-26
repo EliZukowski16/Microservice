@@ -15,62 +15,81 @@
     <section id="dateSelection">
         <div>
             <form data-ng-submit="TC.dateSubmit()">
-                <label for="dateSelect">View Traffic Stops On:</label> 
-                <input data-ng-model="TC.trafficStopDateRaw" id="dateSelect"type="date"> 
-                <input id="submitDate" type="submit" value="Submit" data-ng-disabled="!TC.trafficStopDateRaw">
+                <label for="dateSelect">View Traffic Stops On:</label> <input
+                    data-ng-model="TC.trafficStopDateRaw" id="dateSelect"
+                    type="date"> <input id="submitDate" type="submit"
+                    value="Submit" data-ng-disabled="!TC.trafficStopDateRaw">
             </form>
         </div>
     </section>
-    <section style="text-align:center">
-    <span class="spinner" data-ng-show="TC.loading"></span>
+    <section style="text-align: center">
+        <span class="spinner" data-ng-show="TC.loading"></span>
     </section>
     <section id="trafficStops" data-ng-show="TC.requestMade">
-        
         <table id="trafficStopTable">
             <thead id="stopHeader">
                 <tr>
                     <th>
                         <button data-ng-click="TC.sortBy('dateAndTimeOfStop')">Time</button>
-                        <span class="sortorder" data-ng-show="TC.sortMethod === 'dateAndTimeOfStop'" data-ng-class="{reverse: TC.reverse}"></span>
+                        <span class="sortorder"
+                        data-ng-show="TC.sortMethod === 'dateAndTimeOfStop'"
+                        data-ng-class="{reverse: TC.reverse}"></span>
                     </th>
                     <th>
                         <button data-ng-click="TC.sortBy('latitude')">Latitude</button>
-                        <span class="sortorder" data-ng-show="TC.sortMethod === 'latitude'" data-ng-class="{reverse: TC.reverse}"></span>
+                        <span class="sortorder"
+                        data-ng-show="TC.sortMethod === 'latitude'"
+                        data-ng-class="{reverse: TC.reverse}"></span>
                     </th>
                     <th>
                         <button data-ng-click="TC.sortBy('longitude')">Longitude</button>
-                        <span class="sortorder" data-ng-show="TC.sortMethod === 'longitude'" data-ng-class="{reverse: TC.reverse}"></span>
+                        <span class="sortorder"
+                        data-ng-show="TC.sortMethod === 'longitude'"
+                        data-ng-class="{reverse: TC.reverse}"></span>
                     </th>
                     <th>
                         <button data-ng-click="TC.sortBy('location')">Location</button>
-                        <span class="sortorder" data-ng-show="TC.sortMethod === 'location'" data-ng-class="{reverse: TC.reverse}"></span>
+                        <span class="sortorder"
+                        data-ng-show="TC.sortMethod === 'location'"
+                        data-ng-class="{reverse: TC.reverse}"></span>
                     </th>
                     <th>
-                        <button data-ng-click="TC.sortBy('vehicleType')">Vehicle Type</button>
-                        <span class="sortorder" data-ng-show="TC.sortMethod === 'vehicleType'" data-ng-class="{reverse: TC.reverse}"></span>
+                        <button data-ng-click="TC.sortBy('vehicleType')">Vehicle
+                            Type</button> <span class="sortorder"
+                        data-ng-show="TC.sortMethod === 'vehicleType'"
+                        data-ng-class="{reverse: TC.reverse}"></span>
                     </th>
                     <th>
                         <button data-ng-click="TC.sortBy('vehicleMake')">Make</button>
-                        <span class="sortorder" data-ng-show="TC.sortMethod === 'vehicleMake'" data-ng-class="{reverse: TC.reverse}"></span>
+                        <span class="sortorder"
+                        data-ng-show="TC.sortMethod === 'vehicleMake'"
+                        data-ng-class="{reverse: TC.reverse}"></span>
                     </th>
                     <th>
                         <button data-ng-click="TC.sortBy('vehicleModel')">Model</button>
-                        <span class="sortorder" data-ng-show="TC.sortMethod === 'vehicleModel'" data-ng-class="{reverse: TC.reverse}"></span>
+                        <span class="sortorder"
+                        data-ng-show="TC.sortMethod === 'vehicleModel'"
+                        data-ng-class="{reverse: TC.reverse}"></span>
                     </th>
                     <th>
                         <button data-ng-click="TC.sortBy('vehicleYear')">Year</button>
-                        <span class="sortorder" data-ng-show="TC.sortMethod === 'vehicleYear'" data-ng-class="{reverse: TC.reverse}"></span>
+                        <span class="sortorder"
+                        data-ng-show="TC.sortMethod === 'vehicleYear'"
+                        data-ng-class="{reverse: TC.reverse}"></span>
                     </th>
                     <th>
                         <button data-ng-click="TC.sortBy('vehicleColor')">Color</button>
-                        <span class="sortorder" data-ng-show="TC.sortMethod === 'vehicleColor'" data-ng-class="{reverse: TC.reverse}"></span>
+                        <span class="sortorder"
+                        data-ng-show="TC.sortMethod === 'vehicleColor'"
+                        data-ng-class="{reverse: TC.reverse}"></span>
                     </th>
                 </tr>
             </thead>
             <tbody id="stopBody">
                 <tr class="stopRow" data-id="{{trafficStop.id}}"
                     data-ng-repeat="trafficStop in TC.trafficStopValues | orderBy:TC.sortMethod:TC.reverse">
-                    <td>{{trafficStop.dateAndTimeOfStop | date : 'HH:mm:ss'}}</td>
+                    <td>{{trafficStop.dateAndTimeOfStop | date :
+                        'HH:mm:ss'}}</td>
                     <td>{{trafficStop.latitude}}</td>
                     <td>{{trafficStop.longitude}}</td>
                     <td>{{trafficStop.location}}</td>
