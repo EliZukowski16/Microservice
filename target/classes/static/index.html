@@ -14,14 +14,18 @@
     <header> </header>
     <section id="dateSelection">
         <div>
-            <form data-ng-submit="TC.dateSubmit(TC.trafficStopDateRaw)">
+            <form data-ng-submit="TC.dateSubmit()">
                 <label for="dateSelect">View Traffic Stops On:</label> 
                 <input data-ng-model="TC.trafficStopDateRaw" id="dateSelect"type="date"> 
                 <input id="submitDate" type="submit" value="Submit" data-ng-disabled="!TC.trafficStopDateRaw">
             </form>
         </div>
     </section>
-    <section id="trafficStops" data-ng-hide="TC.trafficStopValues.length === 0">
+    <section style="text-align:center">
+    <span class="spinner" data-ng-show="TC.loading"></span>
+    </section>
+    <section id="trafficStops" data-ng-show="TC.requestMade">
+        
         <table id="trafficStopTable">
             <thead id="stopHeader">
                 <tr>
@@ -85,11 +89,17 @@
         angular.module('traffic', []).controller("TrafficController", function($http) {
     		var controller = this;
         	
+    		controller.loading = false;
+    		controller.requestMade = false;
+    		
             controller.dateNice = {
                 year : "",
                 month : "",
                 day : "",
             }
+            
+            controller.trafficStopDateRaw = new Date();
+            controller.trafficStopDateRaw.setDate(new Date().getDate() - 1)
     
             controller.trafficStopValues = []
             
@@ -102,10 +112,14 @@
             	controller.sortMethod = sortMethod;
             }
             
-            controller.dateSubmit = function(date) {
-            	controller.dateNice.year = date.getFullYear();
-            	controller.dateNice.month = date.getMonth() + 1;
-            	controller.dateNice.day = date.getDate();
+            controller.dateSubmit = function() {
+            	
+            	controller.dateNice.year = controller.trafficStopDateRaw.getFullYear();
+            	controller.dateNice.month = controller.trafficStopDateRaw.getMonth() + 1;
+            	controller.dateNice.day = controller.trafficStopDateRaw.getDate();
+            	
+            	controller.requestMade = false;
+            	controller.loading = true;
     
                 $http.get("./stops/" + controller.dateNice.year + "/" + controller.dateNice.month + "/" + controller.dateNice.day).then(function(response) {
                 	controller.trafficStopValues = []
@@ -129,6 +143,9 @@
                             vehicleYear : value.year,
                             vehicleColor : value.color,
                         })
+                        
+                        controller.loading = false;
+                    	controller.requestMade = true;
                     })
                 })
             }
